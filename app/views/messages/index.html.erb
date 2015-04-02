@@ -1,9 +1,17 @@
-<h1>Messages</h1>
+<% if user_signed_in? %>
+  <h4>Hello <%= current_user.username %>!</h4>
+  <%= link_to 'New Message', new_message_path %>
+  <%= link_to 'View Contacts', contacts_path %>
+  <hr>
+<% end %>
 
-<ul>
-  <% @messages.each do |message| %>
-    <li><%= link_to message.id, message_path(message)%></li>
-  <% end %>
-</ul>
-
-<%= link_to 'New Message', new_message_path %>
+<% if user_signed_in? && current_user.messages.any? %>
+  <h4>Message List</h4>
+  <ul>
+    <% current_user.messages.each do |message| %>
+      <li><%= link_to message.id, message_path(message)%></li>
+    <% end %>
+  </ul>
+<% elsif user_signed_in? %>
+  <h4>No Messages Yet!</h4>
+<% end %>
