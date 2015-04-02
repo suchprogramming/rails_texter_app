@@ -1,5 +1,7 @@
 class MessagesController < ApplicationController
 
+  before_filter :authenticate_user!, except: [:index]
+
   def index
     @messages = Message.all
   end
@@ -9,7 +11,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @message = Message.new(message_params)
+    @message = current_user.messages.new(message_params)
     if @message.save
       flash[:success] = "Message Sent"
       redirect_to messages_path
@@ -23,7 +25,7 @@ class MessagesController < ApplicationController
   end
 
   private
-  
+
   def message_params
     params.require(:message).permit(:to, :from, :body)
   end
