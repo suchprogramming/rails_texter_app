@@ -1,0 +1,14 @@
+<h4>Contact List</h4>
+
+<%= link_to 'Add Contact', new_contact_path %>
+<hr>
+
+<% if current_user.contacts.any? %>
+<ul>
+  <% current_user.contacts.each do |contact| %>
+    <li><%= contact.first_name %> | <%= contact.last_name %> | <%= contact.phone_number %> </li>
+  <% end %>
+</ul>
+<% else %>
+  <h5>No Contacts Yet!</h5>
+<% end %>
